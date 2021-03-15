@@ -689,6 +689,7 @@ CONTENT_TYPE = {
     '.zabw': 'application/x-abiword',
     '.zip': 'application/zip',
     '.zoo': 'application/x-zoo',
+    '.nupkg': 'application/nupkg',
 }
 REPORT_ADDRESS = os.path.abspath('..') + r'/reports/'
 LOG_ADDRESS = os.path.abspath('..') + r'/logs/'
