@@ -6,9 +6,9 @@ from flask_login import LoginManager
 from config import config
 from config import config_log
 from .util import global_variable  # 初始化文件地址
-from sqlalchemy import MetaData
 from flask_apscheduler import APScheduler
 from flask_compress import Compress
+
 login_manager = LoginManager()
 # login_manager.session_protection = 'None'
 # login_manager.login_view = '.login'
@@ -22,9 +22,9 @@ naming_convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     "pk": "pk_%(table_name)s"
 }
-db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention), use_native_unicode='utf8')
 
-# db = SQLAlchemy()
+
+db = SQLAlchemy()
 
 scheduler = APScheduler()
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -38,6 +38,8 @@ def create_app(config_name):
     app.config['COMPRESS_MIN_SIZE'] = 1024
     app.logger.addHandler(config_log())  # 初始化日志
     config[config_name].init_app(app)
+
+    db = SQLAlchemy(app, use_native_unicode='utf8')
 
     # https://blog.csdn.net/yannanxiu/article/details/53426359 关于定时任务访问数据库时报错
     # 坑在这2个的区别 db = SQLAlchemy() db = SQLAlchemy(app)

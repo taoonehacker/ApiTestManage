@@ -108,8 +108,8 @@ class Config:
     SECRET_KEY = 'BaSeQuie'
     basedir = os.path.abspath(os.path.dirname(__file__))
 
-    # sqlite数据库的地址
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data.sqlite")
+    # msyql数据库的地址
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:wezhuiyi%^@47.93.125.49:3306/autotest"
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CSRF_ENABLED = True
@@ -123,12 +123,16 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-    SCHEDULER_JOBSTORES = {'default': SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI)}
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:wezhuiyi%^@47.93.125.49:3306/autotest?charset=utf8mb4"
+    SCHEDULER_JOBSTORES = {'default': SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI,
+                                                         engine_options={'pool_pre_ping': True})}
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_POOL_SIZE = 1000
+    SQLALCHEMY_POOL_RECYCLE = 1800
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@122.51.184.120:3306/api_test?charset=utf8mb4'  # 123456表示密码，test代表数据库名称
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:wezhuiyi%^@47.93.125.49:3306/autotest?charset=utf8mb4'  # 123456表示密码，test代表数据库名称
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@47.107.147.188:3306/api_test'  # 123456表示密码，test代表数据库名称
     # SCHEDULER_JOBSTORES = {'default': SQLAlchemyJobStore(url=SQLALCHEMY_DATABASE_URI,
     #                                                      engine_options={'pool_pre_ping': True})}
